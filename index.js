@@ -8,10 +8,13 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath }from 'url';
 
+import { register } from './controllers/auth.js'
+import authRouter from './routes/auth.js'
 dotenv.config();
 
 const app = express()
 const PORT = process.env.PORT || 5000
+
 
 mongoose.connect(process.env.MONGO_URI, {
 		useNewUrlParser: true,
@@ -27,28 +30,30 @@ const __dirname = path.dirname(__filename);
 
 
 // middlewares
-app.use(express.json({ limit: '30mb', extended: true}));
-app.use(express.urlencoded({ limit: '30mb', extended: true}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin'}));
 app.use(morgan('common'));
 app.use(cors())
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 
-
 // file storage config
 const storage = multer.diskStorage({
 	destination: function (req, file, cb){
 		cb(null, 'public/assets');
 	},
-	filename: function( req, file, cb){
+	filename: function(req, file, cb){
 		cb(null, file.originalname);
 	}
 })
 
 const upload = multer({ storage });
 
+// routes
+app.post('/auth/register', upload.single('picture'), register)
 
+app.use('/auth', authRouter)
 
 app.listen(PORT, ()=>{
 	console.log('server is running... ')
