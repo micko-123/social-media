@@ -10,6 +10,9 @@ import { fileURLToPath }from 'url';
 
 import { register } from './controllers/auth.js'
 import authRouter from './routes/auth.js'
+import usersRouter from './routes/users.js'
+import postRoute from './routes/post.js'
+
 dotenv.config();
 
 const app = express()
@@ -38,6 +41,7 @@ app.use(morgan('common'));
 app.use(cors())
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 
+
 // file storage config
 const storage = multer.diskStorage({
 	destination: function (req, file, cb){
@@ -53,7 +57,10 @@ const upload = multer({ storage });
 // routes
 app.post('/auth/register', upload.single('picture'), register)
 
+
 app.use('/auth', authRouter)
+app.use('/users', usersRouter)
+app.use('/post', postRoute)
 
 app.listen(PORT, ()=>{
 	console.log('server is running... ')
