@@ -66,7 +66,7 @@ export const login = async(req, res)=>{
 			token
 		})
 
-	}catch{
+	}catch(err){
 		res.status(500).json({error: err.message})
 	}
 }

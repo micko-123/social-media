@@ -59,8 +59,8 @@ export const getUserFriends = async (req,res)=>{
 	
 }
 
-// update
 
+// update
 export const addRemoveFriends = async(req, res)=>{
 	try{
   		const { id, friendId} = req.params;
