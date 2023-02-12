@@ -9,6 +9,7 @@ import path from 'path';
 import { fileURLToPath }from 'url';
 
 import { register } from './controllers/auth.js'
+import { createPost } from './controllers/post.js'
 import authRouter from './routes/auth.js'
 import usersRouter from './routes/users.js'
 import postRoute from './routes/post.js'
@@ -56,12 +57,15 @@ const upload = multer({ storage });
 
 // routes
 app.post('/auth/register', upload.single('picture'), register)
-
+app.post('/posts', verifyToken, upload.single('picture'), createPost)
 
 app.use('/auth', authRouter)
 app.use('/users', usersRouter)
-app.use('/post', postRoute)
+app.use('/posts', postRoute)
 
 app.listen(PORT, ()=>{
 	console.log('server is running... ')
 })
+
+// npm i react-redux @reduxjs/toolkit redux-persist react-dropzone dotenv 
+// npm i formik yup react-router-dom@6 @mui/material @emotion/react @emotion/styled @mui/icons-material
