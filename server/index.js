@@ -8,11 +8,11 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath }from 'url';
 
-import { register } from './controllers/auth.js'
-import { createPost } from './controllers/post.js'
-import authRouter from './routes/auth.js'
-import usersRouter from './routes/users.js'
-import postRoute from './routes/post.js'
+import { register } from './controllers/auth.js';
+import { createPost } from './controllers/post.js';
+import authRouter from './routes/auth.js';
+import usersRouter from './routes/users.js';
+import postRoute from './routes/post.js';
 
 dotenv.config();
 
